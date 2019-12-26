@@ -1,2 +1,3 @@
-# demo-html5-canvas
-HTML5 Canvas demo.  Simple area chooser with coordinates
+# HTML5 Canvas demo.  
+
+Simple html5 area chooser with coordinates

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+
+	<style>
+	body {
+		padding:0;
+		margin:0;
+		background:#888;
+	}
+	canvas {
+		display:block;
+		margin:30px auto 0;
+		background:#eee;
+	}
+	.coords {
+		background-color: #999;
+		width: 600px;
+		display: inline-block;
+	}
+	.container {
+		text-align: center;
+	}
+
+	</style>
+</head>
+
+<body>
+<div>
+	<div class= "container">
+		<canvas id="canvas" width="600" height="250"></canvas>
+		<div class="coords" id="coords">0 : 0</div>
+	</div>
+</div>
+
+<script>
+	const canvas = document.getElementById('canvas');
+	const coords = document.getElementById('coords');
+	const	ctx = canvas.getContext('2d');
+	ctx.fillStyle = "rgba(0, 80, 80, 0.5)";
+	const		rect = {};
+	let	drag = false;
+
+
+	function draw() {
+		ctx.fillRect(rect.startX, rect.startY, rect.w, rect.h);
+	}
+
+	function mouseDown(e) {
+		rect.startX = e.pageX - this.offsetLeft;
+		rect.startY = e.pageY - this.offsetTop;
+		drag = true;
+	}
+
+	function mouseUp() {
+		drag = false;
+	}
+
+	function mouseMove(e) {
+		if (drag) {
+			rect.w = (e.pageX - this.offsetLeft) - rect.startX;
+			rect.h = (e.pageY - this.offsetTop) - rect.startY ;
+			ctx.clearRect(0,0, canvas.width, canvas.height);
+			draw();
+		}
+	}
+
+	function init() {
+		canvas.addEventListener('mousedown', function(e) {getCursorPosition(canvas, e)});
+		canvas.addEventListener('mouseup', function(e) {getCursorPosition(canvas, e)});
+		canvas.addEventListener('mousedown', mouseDown, false);
+		canvas.addEventListener('mouseup', mouseUp, false);
+		canvas.addEventListener('mousemove', mouseMove, false);
+	}
+
+	function getCursorPosition(canvas, event) {
+		const rect = canvas.getBoundingClientRect();
+		const x = event.clientX - rect.left;
+		const y = event.clientY - rect.top;
+		coords.innerHTML = x + " : " + y;
+		//console.log("x + " :" + y);
+	}
+
+	init();
+
+</script>
+</body>
+</html>
